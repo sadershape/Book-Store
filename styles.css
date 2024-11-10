@@ -1,0 +1,169 @@
+/* Basic Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+
+body, .navbar, .card, footer {
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h1 {
+    color: #343a40;
+}
+
+h1, h2 {
+    margin: 20px 0;
+}
+
+blockquote {
+    font-size: 1.2em;
+    color: #6c757d;
+    border-left: 4px solid #007bff;
+    padding-left: 1rem;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+
+.dark-theme {
+    background-color: #333;
+    color: #fff;
+}
+
+body.dark-theme {
+ background-color: #121212;
+    color: #fff;
+}
+
+
+
+.dark-theme .navbar, .dark-theme .footer {
+    background-color: #444;
+    color: #fff;
+}
+
+
+
+
+body.dark-theme .card {
+    background-color: #222;
+    color: #fff;
+}
+
+
+
+body.dark-theme .footer {
+    background-color: #222;
+    color: #fff;
+}
+
+.dark-theme h1, .dark-theme h2, .dark-theme h3 {
+    color: #fff;
+}
+.navbar {
+    background-color: #f8f9fa;
+    color: #000;
+}
+
+.card {
+    background-color: #fff;
+    color: #000;
+}
+
+.footer {
+    background-color: #f8f9fa;
+    padding: 20px;
+}
+
+.dark-theme #footer {
+    background-color: #444;
+}
+.star {
+    cursor: pointer;
+    color: lightgray; /* Default color */
+    font-size: 24px; /* Adjust size as needed */
+}
+
+.star.selected {
+    color: gold; /* Highlighted color */
+}
+
+/* Optional: Add hover effect for stars */
+.star:hover {
+    color: #f39c12;
+    text-shadow: 0 0 10px #f39c12, 0 0 20px #f39c12; /* Glowing effect on hover */
+}
+
+.btn {
+    padding: 10px 15px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+.rating {
+    unicode-bidi: bidi-override;
+    color: #ddd;
+    font-size: 25px;
+    margin: 0;
+    position: relative;
+    padding: 0;
+}
+
+.rating > span {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+}
+
+.rating > span:hover,
+.rating > span:hover ~ span {
+    color: gold;
+}
+/* Star Rating */
+.rating .star {
+    font-size: 30px;
+    color: gray;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.rating .star:hover {
+    color: gold;
+}
+
+/* Dynamic Book List */
+#bookList p {
+    padding: 5px;
+    margin: 5px 0;
+}
+
+
+
+/* Animated Box */
+.box {
+    width: 100px;
+    height: 100px;
+    background-color: blue;
+    margin-top: 20px;
+    transition: transform 0.5s ease;
+}
+
+
