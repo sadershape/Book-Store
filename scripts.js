@@ -1,5 +1,3 @@
-
-
 // Toggle Dark and Light Theme
 document.getElementById('theme-toggle-btn').addEventListener('click', function() {
   document.body.classList.toggle('dark-theme');
@@ -53,14 +51,14 @@ function openModal(type) {
 closeBtn.onclick = function() {
   modal.style.display = 'none';
   document.body.style.overflow = 'auto'; // Enable scrolling
-}
+};
 
 window.onclick = function(event) {
   if (event.target == modal) {
     modal.style.display = 'none';
     document.body.style.overflow = 'auto'; // Enable scrolling
   }
-}
+};
 
 // Handle Sign Up
 function handleSignUp(e) {
@@ -150,7 +148,6 @@ signupButton.addEventListener('click', function() {
 if (window.location.pathname.includes('profile.html')) {
   const currentUser = JSON.parse(localStorage.getItem('currentUser'));
   if (currentUser) {
-    // Display the profile information on the page
     document.getElementById('profile-username').textContent = currentUser.username;
     document.getElementById('profile-email').textContent = currentUser.email;
     document.getElementById('profile-phone').textContent = currentUser.phone;
@@ -173,6 +170,108 @@ if (window.location.pathname.includes('profile.html')) {
     window.location.href = 'index.html'; // Redirect to home page if not logged in
   }
 }
+// Event listener for search button
+document.getElementById('search-btn').addEventListener('click', function() {
+  const query = document.getElementById('search-query').value;
+  if (query) {
+    searchBooks(query);
+  } else {
+    alert('Please enter a search term');
+  }
+});
+setInterval(updateCurrentTime, 1000);
+// Function to fetch books from Google Books API
+function searchBooks(query) {
+  const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}`; // No API key needed
 
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      const books = data.items;
+      if (books) {
+        displayBooks(books);
+      } else {
+        alert('No books found for the given search term.');
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching books:', error);
+      alert('An error occurred while fetching books.');
+    });
+}
 
+// Function to display books
+function displayBooks(books) {
+  const container = document.getElementById('books-container');
+  container.innerHTML = ''; // Clear previous results
 
+  books.forEach(book => {
+    const bookInfo = book.volumeInfo;
+    const bookCard = document.createElement('div');
+    bookCard.classList.add('book-card');
+
+    const bookImage = bookInfo.imageLinks ? `<img src="${bookInfo.imageLinks.thumbnail}" alt="${bookInfo.title}">` : '<img src="placeholder.jpg" alt="No Image Available">';
+    const bookTitle = bookInfo.title || 'No Title Available';
+    const bookDescription = bookInfo.description ? `<p>${bookInfo.description.substring(0, 100)}...</p>` : '<p>No description available.</p>';
+
+    bookCard.innerHTML = `
+      <div class="book-card-content">
+        ${bookImage}
+        <div class="book-details">
+          <h4>${bookTitle}</h4>
+          ${bookDescription}
+        </div>
+      </div>
+    `;
+    container.appendChild(bookCard);
+  });
+}
+
+// Books API Search Function
+document.getElementById('search-btn').addEventListener('click', function() {
+  const query = document.getElementById('search-query').value;
+  searchBooks(query);
+});
+
+function searchBooks(query) {
+  const url = `https://www.googleapis.com/books/v1/volumes?q=${query}`;
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      const books = data.items;
+      displayBooks(books);
+    })
+    .catch(error => {
+      console.error('Error fetching books:', error);
+    });
+}
+
+function displayBooks(books) {
+  const container = document.getElementById('books-container');
+  container.innerHTML = ''; // Clear the current books
+
+  books.forEach(book => {
+    const bookInfo = book.volumeInfo;
+    const bookCard = document.createElement('div');
+    bookCard.classList.add('book-card');
+
+    const bookImage = bookInfo.imageLinks ? `<img src="${bookInfo.imageLinks.thumbnail}" alt="${bookInfo.title}">` : '';
+    const bookTitle = bookInfo.title || 'No Title Available';
+    const bookDescription = bookInfo.description ? `<p>${bookInfo.description.substring(0, 100)}...</p>` : '';
+
+    bookCard.innerHTML = `
+      ${bookImage}
+      <div class="book-details">
+        <h4>${bookTitle}</h4>
+        ${bookDescription}
+      </div>
+    `;
+    container.appendChild(bookCard);
+  });
+}
+
+// Logout functionality
+document.getElementById('logout-btn').addEventListener('click', function() {
+  localStorage.removeItem('currentUser');
+  window.location.href = 'index.html'; // Redirect to home page
+});
