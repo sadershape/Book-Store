@@ -1,114 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Books Page</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-    <!-- Navbar -->
-     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Library</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="books.html">Books</a></li>
-                </ul>
-                <button id="theme-toggle" class="btn btn-outline-secondary ms-auto">Dark Mode</button>
-                <div class="d-flex">
-                <span id="navbar-username" class="navbar-text me-3"></span>
-                <button id="login-btn" class="btn btn-outline-success me-2">Log In</button>
-                <button id="logout-btn" class="btn btn-outline-danger" style="display: none;">Log Out</button>
-                </div>            
-			</div>
-        </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bookstore</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body class="bg-light">
+    <nav>
+      <div id="nav-left">
+        <button id="home-btn">Home</button>
+        <button id="books-btn">Books</button>
+      </div>
+      <div id="nav-right">
+        <button id="logout-btn">Logout</button>
+      </div>
     </nav>
 
-    <!-- Main Content -->
     <div class="container mt-5">
-        <h1 class="text-center">Books Collection</h1>
-
-        <!-- Login Form -->
-        <div id="login-form" class="text-center mb-4">
-            <input type="text" id="username" placeholder="Enter your name" class="form-control mb-3" style="width: 300px; display: inline-block;">
-            <button id="login-btn" class="btn btn-success">Login</button>
+      <h1 class="display-4 text-center text-dark">Google Books</h1>
+      <div class="card text-white bg-dark mb-3">
+        <div class="card-header">Search for Books</div>
+        <div class="card-body">
+          <h4 class="card-title">Type a book title below</h4>
+          <input
+            type="text"
+            class="form-control"
+            id="search-input"
+            placeholder="Enter book title"
+          />
+          <button class="btn btn-primary mt-2" id="search-btn">Search</button>
         </div>
+      </div>
 
-        <!-- Logged In Info and Logout Button -->
-        <div id="username-display" class="text-center my-3"></div>
-        <button id="logout-btn" class="btn btn-danger" style="display: none;">Logout</button>
-
-        <!-- Book Cards -->
-        <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="card" data-book-id="1">
-                    <img src="greatgatsby.jpg" class="card-img-top" alt="Great Gatsby">
-                    <div class="card-body">
-                        <h5 class="card-title">The Great Gatsby</h5>
-                        <p class="card-text">The Great Gatsby is a 1925 novel by American writer F. Scott Fitzgerald. The novel depicts first-person narrator Nick Carraway's interactions with mysterious millionaire Jay Gatsby.</p>
-                        <div class="rating">
-                            <span class="star" data-value="1">&#9733;</span>
-                            <span class="star" data-value="2">&#9733;</span>
-                            <span class="star" data-value="3">&#9733;</span>
-                            <span class="star" data-value="4">&#9733;</span>
-                            <span class="star" data-value="5">&#9733;</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card" data-book-id="2">
-                      <img src="tokillamockingbird.jpg" class="card-img-top" alt="To kill a Mockingbird">
-                    <div class="card-body">
-                        <h5 class="card-title">To kill a Mockingbird</h5>
-                        <p class="card-text">The story, told by Jean Louise Finch, takes place during three years of the Great Depression...</p>
-                        <div class="rating">
-                            <span class="star" data-value="1">&#9733;</span>
-                            <span class="star" data-value="2">&#9733;</span>
-                            <span class="star" data-value="3">&#9733;</span>
-                            <span class="star" data-value="4">&#9733;</span>
-                            <span class="star" data-value="5">&#9733;</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card" data-book-id="3">
-                    <img src="flowers.jpg" class="card-img-top" alt="Flowers for Algernon">
-                    <div class="card-body">
-                        <h5 class="card-title">Flowers for Algernon</h5>
-                        <p class="card-text">Charlie Gordon is a 37-year-old man with an IQ of 68...</p>
-                        <div class="rating">
-                            <span class="star" data-value="1">&#9733;</span>
-                            <span class="star" data-value="2">&#9733;</span>
-                            <span class="star" data-value="3">&#9733;</span>
-                            <span class="star" data-value="4">&#9733;</span>
-                            <span class="star" data-value="5">&#9733;</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+      <div id="book-grid" class="row mt-4">
+        <!-- Book results will be inserted here -->
+      </div>
     </div>
 
-    <!-- Footer -->
-  <footer class="bg-light text-center py-3 mt-5">
-        <p>&copy; 2024 Tazhiyev Damir</p>
-        <p>Contact me 
-            <a href="t.me/@sadershape" class="text-decoration-none">Telegram</a>, 
-            <a href="mailto:231564@astanait.edu.kz" class="text-decoration-none">Mail</a>, 
-            <a href="@sadershape" class="text-decoration-none">Instagram</a>
-        </p>
-    </footer>
+    <script src="script.js"></script>
+    <script type="text/javascript" src="https://www.google.com/books/jsapi.js"></script>
+    <script>
+      // Load Google Books API
+      google.books.load({ language: "en" });
 
-    <!-- JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="scripts.js"></script>
-</body>
+      // Event listener for search button
+      document.getElementById("search-btn").addEventListener("click", function () {
+        const query = document.getElementById("search-input").value;
+        if (query) {
+          searchBooks(query);
+        }
+      });
+
+     function searchBooks(query) {
+  const url = `https://www.googleapis.com/books/v1/volumes?q=${query}`;
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      const books = data.items;
+      displayBooks(books);
+    })
+    .catch(error => {
+      console.error('Error fetching books:', error);
+    });
+}
+
+
+      // Function to display books on the page
+      function displayBooks(books) {
+        const bookGrid = document.getElementById("book-grid");
+        bookGrid.innerHTML = ""; // Clear previous results
+
+        books.forEach(book => {
+          const bookTitle = book.volumeInfo.title;
+          const bookAuthors = book.volumeInfo.authors ? book.volumeInfo.authors.join(", ") : "Unknown Author";
+          const bookImage = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : 'https://via.placeholder.com/128x192';
+
+          const bookElement = document.createElement("div");
+          bookElement.classList.add("col-md-4", "mb-4");
+
+          bookElement.innerHTML = `
+            <div class="card" style="width: 18rem;">
+              <img src="${bookImage}" class="card-img-top" alt="${bookTitle}" />
+              <div class="card-body">
+                <h5 class="card-title">${bookTitle}</h5>
+                <p class="card-text">by ${bookAuthors}</p>
+                <a href="https://books.google.com/books?id=${book.id}" target="_blank" class="btn btn-primary">Read More</a>
+              </div>
+            </div>
+          `;
+          bookGrid.appendChild(bookElement);
+        });
+      }
+    </script>
+  </body>
 </html>
