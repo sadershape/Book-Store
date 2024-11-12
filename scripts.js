@@ -1,147 +1,178 @@
-// DOM Elements
-const loginBtn = document.getElementById('login-btn');
-const logoutBtn = document.getElementById('logout-btn');
-const usernameInput = document.getElementById('username');
-const usernameDisplay = document.getElementById('username-display');
-const themeToggle = document.getElementById('theme-toggle');
-const currentTimeDisplay = document.getElementById('current-time') || null; // Null if not on page with current-time
-const starElements = document.querySelectorAll('.star');
 
-// Function to load user preferences (theme, username, ratings)
-function loadUserPreferences() {
-    const username = localStorage.getItem('username');
-    const theme = localStorage.getItem('theme');
-    
-    // Load theme preference
-    if (theme === 'dark') {
-        document.body.classList.add('dark-theme');
-        themeToggle.textContent = 'Light Mode';
-    } else {
-        document.body.classList.remove('dark-theme');
-        themeToggle.textContent = 'Dark Mode';
-    }
 
-    // Load username if exists
-  if (username) {
-        navbarUsername.textContent = `Welcome, ${username}`;
-        loginBtn.style.display = 'none'; // Hide login button when logged in
-        logoutBtn.style.display = 'block'; // Show logout button
-        loadUserRatings(username); // Load ratings for this user
-    }
+// Toggle Dark and Light Theme
+document.getElementById('theme-toggle-btn').addEventListener('click', function() {
+  document.body.classList.toggle('dark-theme');
+  localStorage.setItem('theme', document.body.classList.contains('dark-theme') ? 'dark' : 'light');
+});
+
+// Check Theme on Page Load
+if (localStorage.getItem('theme') === 'dark') {
+  document.body.classList.add('dark-theme');
 }
 
-// Load preferences on page load
-window.onload = function () {
-    loadUserPreferences();
+// Modal (Login / Sign-Up)
+const modal = document.getElementById('modal');
+const closeBtn = document.getElementsByClassName('close-btn')[0];
+const loginButton = document.getElementById('login-btn');
+const signupButton = document.getElementById('signup-btn');
+const logoutButton = document.createElement('button');
+logoutButton.textContent = 'Logout';
+logoutButton.id = 'logout-btn';
 
-    // Set the current time (if currentTimeDisplay exists on the page)
-    if (currentTimeDisplay) {
-        const time = new Date().toLocaleTimeString();
-        currentTimeDisplay.textContent = time;
+const userProfile = document.getElementById('user-profile');
+const authForm = document.getElementById('auth-form');
+const formTitle = document.getElementById('form-title');
+const errorMessage = document.getElementById('error-message');
+const userNameSpan = document.getElementById('user-name');
+const welcomeMessage = document.getElementById('welcome-message');
+const welcomeUsernameSpan = document.getElementById('welcome-username');
 
-        // Update current time every second
-        setInterval(() => {
-            currentTimeDisplay.textContent = new Date().toLocaleTimeString();
-        }, 1000);
-    }
-};
+let users = JSON.parse(localStorage.getItem('users')) || [];
 
-// Login Functionality
-loginBtn.addEventListener('click', () => {
-    const username = prompt("Please enter your username:");
-    if (username) {
-        localStorage.setItem('username', username);
-        navbarUsername.textContent = `Welcome, ${username}`;
-        loginBtn.style.display = 'none';
-        logoutBtn.style.display = 'block';
-        loadUserRatings(username); // Load ratings for this user
-    }
-});
+// Function to Open Modal
+function openModal(type) {
+  modal.style.display = 'block';
+  document.body.style.overflow = 'hidden'; // Disable scrolling when modal is open
+  errorMessage.textContent = '';
 
-// Logout Functionality
-logoutBtn?.addEventListener('click', () => {
-    localStorage.removeItem('username');
-    usernameDisplay.textContent = '';
-    usernameInput.style.display = 'inline-block';
-    loginBtn.style.display = 'inline-block';
-    logoutBtn.style.display = 'none';
-    clearUserRatings(); // Clear ratings when logging out
-});
-
-// Theme Toggle Functionality
-themeToggle?.addEventListener('click', () => {
-    document.body.classList.toggle('dark-theme');
-    const theme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
-    localStorage.setItem('theme', theme);
-    themeToggle.textContent = theme === 'dark' ? 'Light Mode' : 'Dark Mode';
-});
-
-// Star Rating Functionality (Event Delegation)
-document.querySelector('.row')?.addEventListener('click', (event) => {
-    if (event.target.classList.contains('star')) {
-        const selectedRating = event.target.getAttribute('data-value');
-        const bookCard = event.target.closest('.card');
-        const bookTitle = bookCard.querySelector('.card-title').textContent;
-        const username = localStorage.getItem('username');
-
-        if (username) {
-            saveRating(username, bookTitle, selectedRating);
-            updateStarRating(bookCard, selectedRating);
-        } else {
-            alert('Please log in to rate books.');
-        }
-    }
-});
-
-// Function to save rating in localStorage
-function saveRating(username, bookTitle, rating) {
-    const ratings = JSON.parse(localStorage.getItem('ratings')) || {};
-    if (!ratings[username]) {
-        ratings[username] = {};
-    }
-    ratings[username][bookTitle] = rating;
-    localStorage.setItem('ratings', JSON.stringify(ratings));
+  if (type === 'signup') {
+    formTitle.textContent = 'Sign Up';
+    document.getElementById('signup-fields').style.display = 'block';
+    document.getElementById('login-fields').style.display = 'none';
+    authForm.onsubmit = handleSignUp;
+  } else {
+    formTitle.textContent = 'Login';
+    document.getElementById('signup-fields').style.display = 'none';
+    document.getElementById('login-fields').style.display = 'block';
+    authForm.onsubmit = handleLogin;
+  }
 }
 
-// Function to load user ratings
-function loadRatings() {
-    const username = localStorage.getItem('username');
-    const ratings = JSON.parse(localStorage.getItem('ratings')) || {};
-
-    if (ratings[username]) {
-        for (const [bookTitle, rating] of Object.entries(ratings[username])) {
-            const bookCard = Array.from(document.querySelectorAll('.card')).find(card => {
-                return card.querySelector('.card-title').textContent === bookTitle;
-            });
-            if (bookCard) {
-                updateStarRating(bookCard, rating);
-            }
-        }
-    }
+// Close Modal Logic
+closeBtn.onclick = function() {
+  modal.style.display = 'none';
+  document.body.style.overflow = 'auto'; // Enable scrolling
 }
 
-// Function to update the star rating display
-function updateStarRating(bookCard, rating) {
-    const stars = bookCard.querySelectorAll('.star');
-    stars.forEach(star => {
-        star.classList.remove('selected'); // Clear previous ratings
-        if (parseInt(star.getAttribute('data-value')) <= rating) {
-            star.classList.add('selected'); // Highlight stars equal to or less than the rating
-        }
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto'; // Enable scrolling
+  }
+}
+
+// Handle Sign Up
+function handleSignUp(e) {
+  e.preventDefault();
+
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+  const email = document.getElementById('email').value;
+  const phone = document.getElementById('phone').value;
+
+  // Basic validation
+  if (!username || !password || !email || !phone) {
+    errorMessage.textContent = 'All fields are required!';
+    return;
+  }
+
+  users.push({ username, password, email, phone });
+  localStorage.setItem('users', JSON.stringify(users));
+
+  alert('Sign up successful! You can now log in.');
+  modal.style.display = 'none';
+  document.body.style.overflow = 'auto'; // Enable scrolling
+}
+
+// Handle Login
+function handleLogin(e) {
+  e.preventDefault();
+
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+
+  const user = users.find(u => u.username === username && u.password === password);
+
+  if (!user) {
+    errorMessage.textContent = 'Invalid username or password!';
+    return;
+  }
+
+  localStorage.setItem('currentUser', JSON.stringify(user));
+
+  // Show Welcome Message and Redirect
+  welcomeUsernameSpan.textContent = username;
+  welcomeMessage.style.display = 'block';
+  setTimeout(() => {
+    window.location.href = 'profile.html'; // Redirect to profile page after 2 seconds
+  }, 2000);
+}
+
+// Update Navbar Buttons
+function updateNavbarButtons() {
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  const navbarRight = document.getElementById('nav-right'); // Assuming nav-right is where buttons are
+
+  if (currentUser) {
+    loginButton.style.display = 'none';
+    signupButton.style.display = 'none';
+    navbarRight.appendChild(logoutButton);
+    logoutButton.style.display = 'inline-block';
+  } else {
+    loginButton.style.display = 'inline-block';
+    signupButton.style.display = 'inline-block';
+    logoutButton.style.display = 'none';
+  }
+}
+
+logoutButton.addEventListener('click', function() {
+  localStorage.removeItem('currentUser');
+  window.location.href = 'index.html'; // Redirect to home page
+});
+
+// Show/Hide Buttons on Page Load
+if (localStorage.getItem('currentUser')) {
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  updateNavbarButtons();
+}
+
+// Add Event Listeners to Login/Signup Buttons
+loginButton.addEventListener('click', function() {
+  openModal('login');
+});
+
+signupButton.addEventListener('click', function() {
+  openModal('signup');
+});
+
+// Profile Page (profile.html) - Handle Profile Actions
+if (window.location.pathname.includes('profile.html')) {
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  if (currentUser) {
+    // Display the profile information on the page
+    document.getElementById('profile-username').textContent = currentUser.username;
+    document.getElementById('profile-email').textContent = currentUser.email;
+    document.getElementById('profile-phone').textContent = currentUser.phone;
+
+    // Set up redirect buttons
+    document.getElementById('view-books-btn').addEventListener('click', function() {
+      window.location.href = 'bookstore.html'; // Redirect to Bookstore page
     });
+
+    document.getElementById('edit-profile-btn').addEventListener('click', function() {
+      window.location.href = 'editProfile.html'; // Redirect to Edit Profile page
+    });
+
+    document.getElementById('logout-btn').addEventListener('click', function() {
+      localStorage.removeItem('currentUser');
+      window.location.href = 'index.html'; // Redirect to home page after logout
+    });
+
+  } else {
+    window.location.href = 'index.html'; // Redirect to home page if not logged in
+  }
 }
 
-// Clear user ratings when logged out
-function clearUserRatings() {
-    const ratings = JSON.parse(localStorage.getItem('ratings')) || {};
-    const username = localStorage.getItem('username');
-    if (ratings[username]) {
-        delete ratings[username];
-        localStorage.setItem('ratings', JSON.stringify(ratings));
-    }
-}
-
-// Load ratings once the DOM is ready
-document.addEventListener('DOMContentLoaded', loadRatings);
 
 
