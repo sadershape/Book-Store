@@ -11,8 +11,8 @@
   <!-- Navbar -->
   <nav>
     <div id="nav-left">
-      <button id="home-btn">Home</button>
-      <button id="books-btn">Books</button>
+ <button id="home-btn" onclick="window.location.href='index.html'">Home</button>
+                <button id="books-btn" onclick="window.location.href='books.html'">Books</button>
     </div>
     <div id="nav-right">
       <button id="login-btn">Login</button>
@@ -22,9 +22,22 @@
   </nav>
 
   <!-- Main Content -->
-  <div id="content">
-    <h1>Welcome to the Book Store!</h1>
-  </div>
+<div class="container mt-5">
+    <div class="d-flex flex-column align-items-center text-center mb-4">
+        <h1 class="display-4 text-primary">Welcome to the Library</h1>
+        <p class="lead text-muted">Your gateway to countless worlds and adventures through books.</p>
+        <img src="bookstore.jpg" alt="Library Image" class="img-fluid rounded shadow-lg my-4" style="max-width: 100%; height: auto; object-fit: cover; max-height: 500px;">
+        <div class="mt-3">
+            <a href="bookstore.html" class="btn btn-primary btn-lg mx-2">Explore Books</a>
+            <a href="profile.html" class="btn btn-outline-secondary btn-lg mx-2">My Profile</a>
+        </div>
+    </div>
+</div>
+
+
+
+        <!-- Current Time -->
+        <div id="current-time" class="text-center my-3">Loading current time...</div>
 
   <!-- Login & Sign Up Modals -->
   <div id="modal" class="modal">
