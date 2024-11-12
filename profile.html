@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <nav>
+    <div id="nav-left">
+ <button id="home-btn" onclick="window.location.href='index.html'">Home</button>
+                <button id="books-btn" onclick="window.location.href='books.html'">Books</button>
+    </div>
+    <div id="nav-right">
+      <button id="logout-btn">Logout</button>
+    </div>
+  </nav>
+
+  <div id="profile-content">
+    <h2>User Profile</h2>
+    <p><strong>Username:</strong> <span id="profile-username"></span></p>
+    <p><strong>Email:</strong> <span id="profile-email"></span></p>
+    <p><strong>Phone:</strong> <span id="profile-phone"></span></p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
