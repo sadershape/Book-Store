@@ -1,169 +1,155 @@
-/* Basic Styles */
+/* Global Styles */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
-    color: #333;
-    margin: 0;
-    padding: 20px;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: white;
+  color: black;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-body, .navbar, .card, footer {
-    transition: background-color 0.5s ease, color 0.5s ease;
+nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #f1f1f1;
 }
 
-
-header {
-    text-align: center;
-    margin-bottom: 20px;
+#nav-left button, #nav-right button {
+  padding: 10px 20px;
+  background-color: #007BFF;
+  border: none;
+  color: white;
+  cursor: pointer;
 }
 
-h1 {
-    color: #343a40;
+#nav-left button:hover, #nav-right button:hover {
+  background-color: #0056b3;
 }
 
-h1, h2 {
-    margin: 20px 0;
+#content {
+  padding: 20px;
+  text-align: center;
 }
 
-blockquote {
-    font-size: 1.2em;
-    color: #6c757d;
-    border-left: 4px solid #007bff;
-    padding-left: 1rem;
+button {
+  cursor: pointer;
 }
 
-blockquote p {
-    margin-bottom: 0;
+input {
+  padding: 10px;
+  margin: 10px 0;
+  width: 100%;
+  max-width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
+#user-profile {
+  text-align: center;
+}
 
 .dark-theme {
-    background-color: #333;
-    color: #fff;
+  background-color: #121212;
+  color: white;
 }
 
-body.dark-theme {
- background-color: #121212;
-    color: #fff;
+.dark-theme nav {
+  background-color: #333;
 }
 
-
-
-.dark-theme .navbar, .dark-theme .footer {
-    background-color: #444;
-    color: #fff;
+.dark-theme #nav-left button, .dark-theme #nav-right button {
+  background-color: #444;
 }
 
-
-
-
-body.dark-theme .card {
-    background-color: #222;
-    color: #fff;
+.dark-theme #nav-left button:hover, .dark-theme #nav-right button:hover {
+  background-color: #555;
 }
 
-
-
-body.dark-theme .footer {
-    background-color: #222;
-    color: #fff;
+/* Modal Styles */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0); /* Black with opacity */
+  background-color: rgba(0, 0, 0, 0.4);
+  padding-top: 60px;
 }
 
-.dark-theme h1, .dark-theme h2, .dark-theme h3 {
-    color: #fff;
-}
-.navbar {
-    background-color: #f8f9fa;
-    color: #000;
-}
-
-.card {
-    background-color: #fff;
-    color: #000;
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 500px;
 }
 
-.footer {
-    background-color: #f8f9fa;
-    padding: 20px;
+.close-btn {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
 }
 
-.dark-theme #footer {
-    background-color: #444;
-}
-.star {
-    cursor: pointer;
-    color: lightgray; /* Default color */
-    font-size: 24px; /* Adjust size as needed */
+.close-btn:hover,
+.close-btn:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
 
-.star.selected {
-    color: gold; /* Highlighted color */
+/* Welcome Message Pop-up */
+#welcome-message h2 {
+  text-align: center;
 }
 
-/* Optional: Add hover effect for stars */
-.star:hover {
-    color: #f39c12;
-    text-shadow: 0 0 10px #f39c12, 0 0 20px #f39c12; /* Glowing effect on hover */
+#books-content {
+  padding: 20px;
+  text-align: center;
 }
 
-.btn {
-    padding: 10px 15px;
-    border: none;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-    margin: 5px;
+#book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 20px;
 }
 
-.btn:hover {
-    background-color: #0056b3;
-}
-.rating {
-    unicode-bidi: bidi-override;
-    color: #ddd;
-    font-size: 25px;
-    margin: 0;
-    position: relative;
-    padding: 0;
+.book-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s;
 }
 
-.rating > span {
-    display: inline-block;
-    position: relative;
-    cursor: pointer;
+.book-card:hover {
+  transform: scale(1.05);
 }
 
-.rating > span:hover,
-.rating > span:hover ~ span {
-    color: gold;
-}
-/* Star Rating */
-.rating .star {
-    font-size: 30px;
-    color: gray;
-    cursor: pointer;
-    transition: color 0.3s;
+.book-card img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
 }
 
-.rating .star:hover {
-    color: gold;
+.book-card .book-info {
+  padding: 15px;
+  text-align: left;
 }
 
-/* Dynamic Book List */
-#bookList p {
-    padding: 5px;
-    margin: 5px 0;
+.book-card .book-info h3 {
+  margin: 0;
+  font-size: 18px;
 }
 
-
-
-/* Animated Box */
-.box {
-    width: 100px;
-    height: 100px;
-    background-color: blue;
-    margin-top: 20px;
-    transition: transform 0.5s ease;
+.book-card .book-info p {
+  font-size: 14px;
+  color: #555;
 }
-
-
